@@ -7,6 +7,19 @@ cmake_minimum_required(VERSION 3.11)
 
 project(CoMISo)
 
+# ---- Patch: Ensure Eigen3::Eigen target exists ----
+include(FetchContent)
+
+FetchContent_Declare(
+  eigen
+  GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git 
+  GIT_TAG 3.4.0
+)
+
+FetchContent_MakeAvailable(eigen)
+add_library(Eigen3::Eigen ALIAS eigen)
+
+
 add_library(CoMISo STATIC
   Solver/EigenLDLTSolver.hh Solver/EigenLDLTSolver.cc
   Solver/MISolver.hh Solver/MISolver.cc
