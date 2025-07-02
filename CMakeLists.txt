@@ -7,17 +7,13 @@ cmake_minimum_required(VERSION 3.11)
 
 project(CoMISo)
 
-# ---- Patch: Ensure Eigen3::Eigen target exists ----
-include(FetchContent)
+# ---- Require Eigen3::Eigen to be defined upstream ----
+find_package(Eigen3 QUIET CONFIG)
 
-FetchContent_Declare(
-  eigen
-  GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git 
-  GIT_TAG 3.4.0
-)
+if(NOT TARGET Eigen3::Eigen)
+  message(FATAL_ERROR "Eigen3::Eigen not found. Please provide Eigen to this project externally using find_package or CPM.")
+endif()
 
-FetchContent_MakeAvailable(eigen)
-add_library(Eigen3::Eigen ALIAS eigen)
 
 
 add_library(CoMISo STATIC
